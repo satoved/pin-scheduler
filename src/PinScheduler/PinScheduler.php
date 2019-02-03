@@ -69,11 +69,11 @@ class PinScheduler
 
         $html = $response->getBody()->getContents();
 
-        if (! preg_match('/{"posts":[^;]+/', $html, $matches)) {
+        if (! preg_match('/({"posts":.+);\s*<\/script>/', $html, $matches)) {
             throw new \DomainException('Cannot find posts data on the page');
         }
 
-        $drafts = collect(json_decode($matches[0])->posts)->values();
+        $drafts = collect(json_decode($matches[1])->posts)->values();
 
         foreach ($drafts as $draft) {
             $this->publishDraft($draft);
