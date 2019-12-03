@@ -14,13 +14,16 @@ class Draft
 
     protected $imageHeight;
 
-    public function __construct($imageUrl, $siteUrl, $description, $imageWidth, $imageHeight, $boardId = null)
+    protected $title;
+
+    public function __construct($imageUrl, $siteUrl, $description, $imageWidth, $imageHeight, $boardId = null, $title = null)
     {
         $this->imageUrl = $imageUrl;
         $this->siteUrl = $siteUrl;
         $this->imageWidth = $imageWidth;
         $this->imageHeight = $imageHeight;
         $this->description = $description;
+        $this->title = $title ?? $description;
 
         if ($boardId) {
             $this->description .= " {".$boardId."}";
@@ -33,6 +36,7 @@ class Draft
             'image-url' => $this->imageUrl,
             'site-url' => $this->siteUrl,
             'description' => $this->description,
+            'title' => $this->title,
             'image-width' => $this->imageWidth,
             'image-height' => $this->imageHeight,
         ];
