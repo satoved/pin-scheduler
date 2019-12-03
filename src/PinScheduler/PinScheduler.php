@@ -112,6 +112,13 @@ class PinScheduler
             $boardId = $this->defaultBoardId;
         }
 
+        if (preg_match('/ ~([\w ]+?)~/', $draft->description, $matches)) {
+            $title = $matches[1];
+            $draft->description = preg_replace('/ ~([\w ]+?)~/', '', $draft->description);
+        } else {
+            $title = 'Test Title';
+        }
+
         $response = $this->client->post('/dashboard/publisher/post/schedule', [
             'form_params' => [
                 'id' => $draft->id,
@@ -119,6 +126,7 @@ class PinScheduler
                 'description' => $draft->description,
                 'link' => $draft->link,
                 'board[]' => $boardId,
+                'title' => $title,
 
                 'attribution' => '0',
                 'button_classes' => 'btn btn-mini btn-success btn-schedule-post pull-right has-spinner',
