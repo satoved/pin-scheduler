@@ -145,10 +145,12 @@ class PinScheduler
             ],
         ]);
 
-        $success = json_decode($response->getBody()->getContents())->success;
+        $contents = $response->getBody()->getContents();
+
+        $success = json_decode($contents)->success;
 
         if (! $success) {
-            throw new \DomainException('Could not publish draft');
+            throw new \DomainException("Could not publish draft: $contents");
         }
     }
 }
